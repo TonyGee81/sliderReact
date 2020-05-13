@@ -22,8 +22,8 @@
     const container = document.getElementById('root');
     let count = 0;
     const IMAGES = [
-        { picture : "images/DSC02125.jpg" },
-        { picture : "images/DSC02132.jpg" },
+        { picture : "https://3wa.fr/wp-content/themes/3wa2015/img/logos/big.png" },
+        { picture : "data:image/png;base64,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" },
     ];
 
     class App extends React.Component{
@@ -48,7 +48,7 @@
 
             return (
                 <div>
-                   <img src={this.state.activePicture.picture} width="750" />
+                   <img src={this.state.activePicture.picture} width="150" />
                 </div>
             );
         }
@@ -58,7 +58,7 @@
         }
 
         componentDidUpdate(){
-
+            console.log('update')
         }
 
         componentWillUnmount() {
