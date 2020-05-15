@@ -1,79 +1,201 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
     <title>Hello React</title>
     <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
-
-
-    
+    <link rel="stylesheet" type="text/css"
+          href="https://raw.githack.com/playoutprod/2020-3wa-react01/master/01_FORMULAIRES_LIFTINGUP/exercices/slider/slider.css"
+          media="all"/>
     <style>
-        .heading{
-            color: purple;
+
+        .view, .controls {
+            overflow: scroll;
+        }
+
+        .view {
+            flex: 2;
+        }
+
+        .controls {
+            flex: 1;
+        }
+
+        li {
+            list-style: none;
         }
     </style>
 </head>
-
 <body>
-<div id="root"></div>
+<div id="slider"></div>
+<!-- compilation JSX => JS -->
+
 <script type="text/babel">
-    const container = document.getElementById('root');
 
-    const IMAGES = [
-        { picture : "https://3wa.fr/wp-content/themes/3wa2015/img/logos/big.png" },
-        { picture : "data:image/png;base64,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" },
-    ];
+    const jsondata = "https://raw.githubusercontent.com/playoutprod/2020-3wa-react01/master/01_FORMULAIRES_LIFTINGUP/exercices/slider/data.json"
 
-    class App extends React.Component{
+    class Loader extends React.Component {
         constructor(props) {
             super(props);
-            let count = 0;
+            this.data = null;
             this.state = {
-                activePicture: count,
-            };
-            this.timer = null;
+                dataLoaded: false,
+                imagesLoaded: false
 
-            // Update state
-            this.timer = setInterval(
-                () => {
+            }
+        }
 
-                    count < IMAGES.length - 1 ? count++ : count = 0;
-                    this.setState({ activePicture: count })
-                }, 2000
+        loadData = url => {
+
+            fetch(url).then(response => {
+                return response.json();
+            }).then((data) => {
+                this.data = data;
+                this.setState({dataLoaded: true});
+                this.data.images.forEach((image) => {
+                    image.loaded = false;
+                    const img = new Image();
+                    img.src = `${this.data.path}${this.data.full_folder}/${image.name}.${data.extension}?raw=true`;
+                    img.onload = () => {
+                        image.loaded = true;
+                        this.checkImagesLoad();
+                    }
+                })
+            })
+        }
+
+        checkImagesLoad = () => {
+            if (!this.data.images.find(image => image.loaded === false)) {
+                this.setState({imagesLoaded: true});
+
+                this.props.onload(this.data);
+            }
+        }
+
+
+        render() {
+            console.log(this.state);
+            return (
+                <div id="loader-1" className="loader"></div>
             )
         }
 
+        componentDidMount() {
+            this.loadData(this.props.url);
+        }
+
+    }
+
+    class ImageList extends React.Component {
+
         render() {
 
+            let jsx = (<ul className="imagelist"></ul>);
+
+            if (this.props.data) {
+                jsx = (<ul className="imagelist">
+                    {
+                        this.props.data.images.map((image, k) => {
+                            return (
+                                <li key={k}>
+                                    <img
+                                        src={`${this.props.data.path}${this.props.data.full_folder}/${image.name}.${this.props.data.extension}?raw=true`}/>
+                                </li>
+                            )
+                        })
+                    }
+                </ul>);
+            }
+
             return (
-                <div>
-                   <img src={IMAGES[this.state.activePicture].picture} width="150" />
+                jsx
+            )
+        }
+    }
+
+    class View extends React.Component {
+
+        render() {
+            return (
+                <div className="view">
+                    <ImageList data={this.props.data}/>
                 </div>
-            );
+            )
+        }
+    }
+
+    class Control extends React.Component {
+
+        render() {
+            return (
+                <div></div>
+            )
+        }
+    }
+
+    class Slider extends React.Component {
+        constructor(props) {
+            super(props);
+            this.dataJson = null;
+            this.state = {
+                preloaded: false
+            }
         }
 
-        componentDidMount() {
-           console.log('mount')
+
+        onLoad = (dataJson) => {
+            this.dataJson = dataJson;
+            this.setState({
+                preloaded: true
+            })
         }
 
-        componentDidUpdate(){
-            console.log('update')
-        }
+        render() {
+            return (
+                <React.Fragment>
 
-        componentWillUnmount() {
-            clearInterval(this.timer);
+                    <div className={"layer " + (this.state.preloaded ? 'hide' : '')}>
+                        <Loader url={this.props.url} onload={this.onLoad}/>
+                    </div>
+
+
+                    <div className="layer content">
+                        <View data={this.dataJson}/>
+                        <Control/>
+                    </div>
+
+                </React.Fragment>
+            )
         }
     }
 
 
-
     ReactDOM.render(
-        <App />,
-        container
+        <Slider url={jsondata}/>,
+        document.getElementById("slider")
     );
+
+
+    //Slider
+
+    //2 LAYERS :
+
+    //LOADER
+
+    //CONTENT
+
+    //VIEW
+
+    //FLECHES
+
+    //LISTE IAMGES FULL
+
+    //CONTROLS
+
+    //LISTE IAMGES THUMB
+
 </script>
 </body>
-
 </html>
