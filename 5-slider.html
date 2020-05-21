@@ -21,8 +21,7 @@
 <!-- compilation JSX => JS -->
 
 <script type="text/babel">
-    const jsondata =
-        "https://raw.githubusercontent.com/playoutprod/2020-3wa-react01/master/01_FORMULAIRES_LIFTINGUP/exercices/slider/data.json";
+    const jsondata = "https://raw.githubusercontent.com/playoutprod/2020-3wa-react01/master/01_FORMULAIRES_LIFTINGUP/exercices/slider/data.json";
 
     class Loader extends React.Component {
         constructor(props) {
@@ -41,7 +40,7 @@
                 })
                 .then(data => {
                     this.data = data;
-                    this.setState({dataLoaded: true});
+                    this.setState({ dataLoaded: true });
                     this.data.images.forEach(image => {
                         image.loaded = false;
                         const img = new Image();
@@ -56,7 +55,7 @@
 
         checkImagesLoad = () => {
             if (!this.data.images.find(image => image.loaded === false)) {
-                this.setState({imagesLoaded: true});
+                this.setState({ imagesLoaded: true });
 
                 this.props.onload(this.data);
             }
@@ -79,14 +78,13 @@
             };
         }
 
-        handleCLick = (event) => {
-            console.log(event.target.getAttribute('index'));
+        handleClick = (event) => {
+            this.props.handleClick(event.target.getAttribute("index"))
         }
 
         render() {
-
             let jsx = (
-                <ul className={`imagelist ${this.props.size}`} style={{left: 0}}>&nbsp;</ul>
+                <ul className={`imagelist ${this.props.size}`} style={{ left: 0 }}>&nbsp;</ul>
             );
 
             if (this.props.data) {
@@ -95,10 +93,7 @@
                 if (this.props.size !== "thumb") {
                     style = {
                         width: this.props.data.images.length * this.state.size[0],
-                        left: this.props.current
-                            ? -this.props.current * this.state.size[0]
-                            : 0
-                    };
+                        left: this.props.current ? -this.props.current * this.state.size[0] : 0 };
                 }
                 jsx = (
                     <ul className={`imagelist ${this.props.size}`} style={style}>
@@ -107,12 +102,11 @@
                                 <li key={k} className={this.props.current === k ? "active" : ""} >
                                     <img
                                         index={k}
-                                        onClick={this.handleCLick}
+                                        onClick={this.handleClick}
                                         style={{
                                             width: this.state.size[0],
                                             height: this.state.size[1]
                                         }}
-                                         alt={image.name}
                                         src={`${this.props.data.path}${this.props.data[this.props.size + "_folder"]}/${image.name}.${this.props.data.extension}?raw=true`}
                                     />
                                 </li>
@@ -130,7 +124,7 @@
         render() {
             return (
                 <div className="arrows">
-                    <button className="arrow left" onClick={this.props.handleClick}>&nbsp;</button>
+                    <button className="arrow left" onClick={this.props.handleClick} >&nbsp;</button>
                     <button className="arrow right" onClick={this.props.handleClick}>&nbsp;</button>
                 </div>
             );
@@ -146,9 +140,9 @@
         render() {
             return (
                 <div className="view">
-                    <Arrows handleClick={this.onClick}/>
+                    <Arrows handleClick={this.onClick} />
                     <div className="container">
-                        <ImageList data={this.props.data} size="full" current={this.props.current}/>
+                        <ImageList data={this.props.data} size="full" current={this.props.current} />
                     </div>
                 </div>
             );
@@ -156,10 +150,15 @@
     }
 
     class Control extends React.Component {
+
+        onClick = (index) => {
+            this.props.handleClick(index)
+        };
+
         render() {
             return (
                 <div className="controls">
-                    <ImageList data={this.props.data} size="thumb" current={this.props.current}/>
+                    <ImageList data={this.props.data} size="thumb" current={this.props.current} handleClick={this.onClick}  />
                 </div>
             );
         }
@@ -175,10 +174,19 @@
             };
         }
 
+        onControl = (index) => {
+            this.setState({
+                current: index
+            })
+        };
+
         onAction = slideLeft => {
             if (slideLeft) {
                 this.setState({
-                    current: this.state.current > 0 ? this.state.current - 1 : this.dataJson.images.length - 1
+                    current:
+                        this.state.current > 0
+                            ? this.state.current - 1
+                            : this.dataJson.images.length - 1
                 });
             } else {
                 this.setState({
@@ -198,13 +206,12 @@
             return (
                 <React.Fragment>
                     <div className={"layer " + (this.state.preloaded ? "hide" : "")}>
-                        <Loader url={this.props.url} onload={this.onLoad}/>
+                        <Loader url={this.props.url} onload={this.onLoad} />
                     </div>
 
                     <div className="layer content">
-                        <View data={this.dataJson} handleClick={this.onAction} current={this.state.current}/>
-                        <Control data={this.dataJson} handleClick={this.onAction} current={this.state.current}
-                        />
+                        <View data={this.dataJson} handleClick={this.onAction} current={this.state.current} />
+                        <Control data={this.dataJson} handleClick={this.onControl} current={this.state.current} />
                     </div>
                 </React.Fragment>
             );
@@ -212,7 +219,7 @@
     }
 
     ReactDOM.render(
-        <Slider url={jsondata}/>,
+        <Slider url={jsondata} />,
         document.getElementById("slider")
     );
 
@@ -234,6 +241,5 @@
 
     //LISTE IAMGES THUMB
 </script>
-
 </body>
 </html>
